@@ -1,5 +1,5 @@
 ĐẶC TẢ NGHIỆP VỤ WEB CÁ NHÂN (SPECIFICATIONS)
-> *Dùng làm ngữ cảnh (Context) gửi cho AI để sinh Test Plan & Test Case chính xác theo dự án.*
+> \*Dùng làm ngữ cảnh (Context) gửi cho AI để sinh Test Plan \& Test Case chính xác theo dự án.\*
 ---
 1. THÔNG TIN DỰ ÁN
 Tên đề tài: Hệ thống quản lý chung cư Polybuilding (QLCC)
@@ -35,9 +35,9 @@ Whitelist (không cần đăng nhập): `/`, `/dang-nhap`, `/dang-nhap-the`, `/i
 Chưa có session hợp lệ → chuyển hướng `/dang-nhap`.
 Mỗi request được đối chiếu lại DB: tài khoản không tồn tại hoặc `trangThaiHoatDong ≠ HoatDong` → huỷ session, chuyển hướng `/dang-nhap` (khoá tài khoản có hiệu lực ngay cả khi đang đăng nhập).
 Sai quyền → HTTP 403 (trang `403.jsp`):
-`/banquanly/**` chỉ `BQL`; `/cudan/**` chỉ `CD`.
-`/letan/**`, `/kythuat/**`, `/ketoan/**`, `/baove/**` chỉ `NV` với `boPhanCode` tương ứng (`LeTan`, `KyThuat`, `KeToan`, `BaoVe`).
-`/nhanvien/**` cho `NV` hoặc `BQL`.
+`/banquanly/\*\*` chỉ `BQL`; `/cudan/\*\*` chỉ `CD`.
+`/letan/\*\*`, `/kythuat/\*\*`, `/ketoan/\*\*`, `/baove/\*\*` chỉ `NV` với `boPhanCode` tương ứng (`LeTan`, `KyThuat`, `KeToan`, `BaoVe`).
+`/nhanvien/\*\*` cho `NV` hoặc `BQL`.
 3.3 CRUD 1 — Quản lý tài khoản — `/banquanly/tai-khoan` (chỉ BQL)
 Tạo (`action=create`): bắt buộc `tenDangNhap`, `matKhau`, `vaiTro`; `tenDangNhap` không được trùng (kiểm tra trước khi tạo, báo "đã tồn tại trong hệ thống"). `CD` → không có `boPhanCode`; `BQL` → `boPhanCode = BanQuanLy`; `NV` → dùng `boPhanCode` được gửi, mặc định `LeTan`. Với `CD` có thể gán `maCanHo`, `hoTen`, `soDienThoai`, `email`, `loaiCuDan`. Trạng thái mặc định `HoatDong`; mật khẩu được băm BCrypt.
 Khoá / mở khoá (`action=toggle`): cần `tenDangNhap`; không được tự khoá chính tài khoản đang đăng nhập; không tìm thấy tài khoản → báo lỗi.
@@ -45,7 +45,7 @@ Reset mật khẩu (`action=resetPassword`): cần `tenDangNhap`; nếu không n
 `action` không hợp lệ → "Action không hợp lệ."
 3.4 CRUD 2 — Phản ánh sự cố của cư dân — `/cudan/phan-anh` (chỉ CD)
 Gửi phản ánh mới: `tieuDe` và `moTa` bắt buộc (không rỗng sau `trim()`); `loaiSuCo` bắt buộc, thuộc `{Dien, Nuoc, ThangMay, PCCC, AnNinh, VeSinh, Khac}`; `mucDoUuTien` thuộc `{Cao, TrungBinh, Thap}` — để trống hoặc không hợp lệ thì tự dùng `TrungBinh`.
-Ảnh đính kèm (tuỳ chọn, `anhTruocXuLy`): chỉ nhận đuôi `.jpg`, `.jpeg`, `.png` và MIME bắt đầu bằng `image/`; file lưu với tên duy nhất `suco_<timestamp>_<uuid6>.<ext>` tại `assets/uploads/suco/`.
+Ảnh đính kèm (tuỳ chọn, `anhTruocXuLy`): chỉ nhận đuôi `.jpg`, `.jpeg`, `.png` và MIME bắt đầu bằng `image/`; file lưu với tên duy nhất `suco\_<timestamp>\_<uuid6>.<ext>` tại `assets/uploads/suco/`.
 Thành công → "Gửi phản ánh sự cố thành công!…"; lỗi → thông báo lỗi tương ứng, không lưu bản ghi.
 Huỷ phản ánh: `/cudan/phan-anh/huy` (mã phản ánh không hợp lệ → báo lỗi). Xem chi tiết: `/cudan/phan-anh/detail?id=`.
 3.5 CRUD 3 — Ghi chỉ số điện nước — `/ketoan/chi-so`, `/ketoan/chi-so/luu` (chỉ Kế toán)
